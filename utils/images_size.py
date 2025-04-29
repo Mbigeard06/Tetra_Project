@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 #dataset path
-dataset_path = "../dataset"
+dataset_path = "../dataset/images"
 
 images = [f for f in os.listdir(dataset_path) if f.endswith('.jpg')]
 
