@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tetra"
+version = "0.1.0"
+description = "Use of Yolov11 to detect Tetra birds"
+authors = [{name="Bigeard", email="mateo.bd@icloud.com"}]
+dependencies = [
+    
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
