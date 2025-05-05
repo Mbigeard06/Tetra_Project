@@ -68,17 +68,7 @@ def view_bb_repartition(label_dir, img_size=640, n=500):
 
     return canvas
 
-canvas = view_bb_repartition(
-    label_dir="../../../dataset_sliced/2025-05-02_5-Fold_Cross-val/split_1/train/labels",
-    img_size=640,
-    n=500
-)
 
-plt.figure(figsize=(6,6))
-plt.imshow(canvas)  # Pas besoin de cvtColor (image blanche en RGB)
-plt.axis('off')
-plt.title("Bounding box distribution (first 500 labels)")
-plt.show()
 
 
         

@@ -5,7 +5,7 @@ model = YOLO('yolo11m.pt')  # or 'runs/detect/train/weights/best.pt'
 
 # Train (finetune) with evolved hyperparameters
 model.train(
-    data="../../../dataset_sliced/2025-05-02_5-Fold_Cross-val/split_1/split_1_dataset.yaml",
+    data="../../../dataset_sliced/split_1/split_1_dataset.yaml",
     epochs=100,
     time = 15,
     imgsz=640,
