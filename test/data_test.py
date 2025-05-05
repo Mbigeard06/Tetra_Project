@@ -19,7 +19,6 @@ def formats(path):
     return {f.suffix.lower() for f in path.glob("*") if f.is_file()}
 
 
-
-print(count_files("../dataset_sliced/images"))
+print(count_files("../dataset_sliced/2025-05-02_5-Fold_Cross-val/split_2/train/images"))
 #assert nb_annotated("../dataset/train/_annotations.coco.json") <= nb_annotated("../dataset_sliced/train/_annotations.coco.json")
 #print(formats("../dataset_sliced"))
