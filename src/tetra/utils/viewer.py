@@ -1,8 +1,11 @@
 import os
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
+import glob
 
-def draw_boxes(img_path, label_path, class_names):
+
+def view_image(img_path, label_path, class_names):
 
     with open(class_names, "r") as f:
         class_names = [line.strip() for line in f.readlines()]
@@ -31,3 +34,51 @@ def draw_boxes(img_path, label_path, class_names):
             cv2.putText(image, class_names[class_id], (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
 
     return image
+
+def view_bb_repartition(label_dir, img_size=640, n=500):
+    canvas = np.ones((img_size, img_size, 3), dtype=np.uint8) * 255
+    label_files = glob.glob(os.path.join(label_dir, "*.txt"))
+    files = label_files[:n]
+
+    for label_file in files:
+        with open(label_file, 'r') as f:
+            for line in f:
+                parts = line.strip().split()
+                if len(parts) != 5:
+                    continue  # skip bad lines
+
+                try:
+                    class_id, x_center, y_center, w, h = map(float, parts)
+                except ValueError:
+                    continue  # skip if conversion fails
+                
+                # Convert YOLO to pixel coords
+                x_center *= img_size
+                y_center *= img_size
+                w *= img_size
+                h *= img_size
+
+                x1 = int(x_center - w / 2)
+                y1 = int(y_center - h / 2)
+                x2 = int(x_center + w / 2)
+                y2 = int(y_center + h / 2)
+
+                # Draw rectangle
+                cv2.rectangle(canvas, (x1, y1), (x2, y2), (0, 0, 255), 1)
+
+    return canvas
+
+canvas = view_bb_repartition(
+    label_dir="../../../dataset_sliced/2025-05-02_5-Fold_Cross-val/split_1/train/labels",
+    img_size=640,
+    n=500
+)
+
+plt.figure(figsize=(6,6))
+plt.imshow(canvas)  # Pas besoin de cvtColor (image blanche en RGB)
+plt.axis('off')
+plt.title("Bounding box distribution (first 500 labels)")
+plt.show()
+
+
+        
