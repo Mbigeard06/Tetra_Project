@@ -1,13 +1,25 @@
 from ultralytics import YOLO
 
 # Load the model
-model = YOLO("yolo11n.pt")
+model = YOLO("../weights/train/yolov11l/best.pt")
 
-# Run the evaluation
-results = model.val(data="../../../dataset_sliced/2025-05-02_5-Fold_Cross-val/split_1/split_1_dataset.yaml")
+# Run the evaluation with proper params
+results = model.val(
+    data="../../../dataset_sliced/split_1/split_1_dataset.yaml",
+    split="val",
+    verbose=True,
+    save=True,
+    save_txt=True,
+    save_conf=True,
+    plots=True,
+    device="mps",
+    iou=0.5
+)
+
 
 # Print specific metrics
-print("Class indices with average precision:", results.ap_class_index)
-print("Average precision for all classes:", results.box.all_ap)
-print("Mean average precision at IoU=0.50:", results.box.map50)
-print("Mean recall:", results.box.mr)
+print(f"F1-score global : {results.box.f1:.4f}")
+print(f"mAP@0.5        : {results.box.map50:.4f}")
+print(f"mAP@0.5:0.95   : {results.box.map:.4f}")
+print(f"Précision      : {results.box.precision:.4f}")
+print(f"Rappel         : {results.box.recall:.4f}")

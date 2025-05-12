@@ -5,7 +5,7 @@ import numpy as np
 import glob
 
 
-def view_image(img_path, label_path, class_names):
+def view_image(img_path, label_path, class_names, conf=None):
 
     with open(class_names, "r") as f:
         class_names = [line.strip() for line in f.readlines()]
@@ -22,9 +22,13 @@ def view_image(img_path, label_path, class_names):
         for line in f:
             parts = line.strip().split()
             print(parts)
-            class_id, x_c, y_c, bw, bh = map(float, parts)
-            class_id = int(class_id)
-
+            class_id = int(parts[0])
+            if conf is None:
+                x_c, y_c, bw, bh = map(float, parts[1:5])
+            else :
+                x_c, y_c, bw, bh, conf_bb = map(float, parts[1:6])
+                if conf_bb < conf:
+                    continue
             x1 = int((x_c - bw / 2) * w)
             y1 = int((y_c - bh / 2) * h)
             x2 = int((x_c + bw / 2) * w)
