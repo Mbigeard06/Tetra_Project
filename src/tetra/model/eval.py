@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 # Load the model
-model = YOLO("../weights/train/yolov11l/best.pt")
+model = YOLO("../../../../runs/train/lyrurus_yolov11m_new_dataset/weights/best.pt")
 
 # Run the evaluation with proper params
 results = model.val(
