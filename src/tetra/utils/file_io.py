@@ -1,4 +1,5 @@
 from PIL import Image
+import os
 
 def coco_to_yolo(annotations, image_path):
     image = Image.open(image_path)
@@ -12,6 +13,15 @@ def coco_to_yolo(annotations, image_path):
         w_norm = w / img_width
         h_norm = h / img_height
         class_id = ann["category_id"]
-        yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f}")
+        score = ann["score"]
+        yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f} {score:.6f}")
 
     return yolo_labels
+
+def save_yolo_labels(yolo_labels, label_dir, file_name):
+    os.makedirs(label_dir, exist_ok=True)
+    path = os.path.join(label_dir, file_name)
+    with open(path, "w") as f:
+        for line in yolo_labels:
+            f.write(line + "\n")
+
