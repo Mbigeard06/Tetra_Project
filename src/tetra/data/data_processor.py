@@ -44,7 +44,23 @@ def filter_labels(label_dir, condition_fn):
             total_deleted_files += 1
             print(f"Deleted empty label: {label_file}")
 
-    print(f"Total removed boxes: {total_removed_boxes}")
-    print(f"Total deleted label files: {total_deleted_files}")
+def modify_label_id(labels_dir, new_id):
+    for label_file in labels_dir.iterdir():
+        if label_file.suffix == ".txt" and label_file.is_file():
+            with open(label_file, "r") as f:
+                lines = f.readlines()
+
+            updated_lines = []
+            for line in lines:
+                parts = line.strip().split()
+                if len(parts) >= 5:
+                    # Replace class id
+                    x, y, w, h = parts[1:5]
+                    updated_line = f"{new_id} {x} {y} {w} {h}"
+                    updated_lines.append(updated_line)
+
+            with open(label_file, "w") as f:
+                f.write("\n".join(updated_lines))  
+
 
 

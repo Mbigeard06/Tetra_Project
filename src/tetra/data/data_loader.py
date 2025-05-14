@@ -43,6 +43,7 @@ def df_bb(dir_path, splits=("train", "val")):
     data = []
     for split in splits:
         split_path = os.path.join(dir_path, split)
+        print(split_path)
         labels_path = os.path.join(split_path, "labels")
         if(os.path.isdir(labels_path)):
             for label in os.listdir(labels_path):
@@ -92,3 +93,21 @@ def df_images(dir_path, splits=("train", "val")):
             }
             )
     return pd.DataFrame(data)
+
+def get_backgrounds(dir):
+    background = []
+    label_dir = Path(dir) / "labels"
+    image_dir = Path(dir) / "images"
+
+    for img in image_dir.iterdir():
+        
+        if img.suffix.lower() not in [".jpg", ".jpeg", ".png"]:
+            continue  
+
+        label_file = label_dir / img.with_suffix(".txt").name
+
+        if not label_file.exists():
+            background.append(img.name)  
+
+    return background
+
