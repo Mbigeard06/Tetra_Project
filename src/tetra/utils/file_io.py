@@ -1,5 +1,9 @@
 from PIL import Image
 import os
+from pathlib import Path
+import shutil
+import json
+
 
 def coco_to_yolo(annotations, image_path):
     image = Image.open(image_path)
@@ -13,8 +17,8 @@ def coco_to_yolo(annotations, image_path):
         w_norm = w / img_width
         h_norm = h / img_height
         class_id = ann["category_id"]
-        score = ann["score"]
-        yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f} {score:.6f}")
+        #score = ann["score"]
+        yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f}")
 
     return yolo_labels
 
@@ -25,3 +29,43 @@ def save_yolo_labels(yolo_labels, label_dir, file_name):
         for line in yolo_labels:
             f.write(line + "\n")
 
+def order_dataset(dataset_path):
+    path = Path(dataset_path)
+    images_dir = path / "images"
+    labels_dir = path / "labels"
+
+    images_dir.mkdir(exist_ok=True)
+    labels_dir.mkdir(exist_ok=True)
+
+    for f in path.iterdir():
+        if f.is_file():
+            if f.suffix.lower() in [".jpg", ".jpeg", ".png"]:
+                shutil.move(str(f), images_dir / f.name)
+            elif f.suffix.lower() == ".txt":
+                shutil.move(str(f), labels_dir / f.name)
+
+def coco_to_yolo_ds(annotations_path, img_dir, output_dir):
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(annotations_path) as f:
+        coco = json.load(f)
+    
+    images = {img["id"] : img for img in coco["images"]}
+
+    #save annotations for each images
+    image_to_anns = {}
+    for ann in coco["annotations"]:
+        img_id = ann["image_id"]
+        if img_id not in image_to_anns:
+            #Create the key
+            image_to_anns[img_id] = []
+        image_to_anns[img_id].append(ann)
+    
+    #Transform to yolo
+    for img_id, img in images.items():
+        anns = image_to_anns.get(img_id, [])
+        image_path = Path(img_dir) / img["file_name"]
+        yolo_ann = coco_to_yolo(anns, image_path)
+        label_name = Path(img["file_name"]).stem + ".txt"
+        save_yolo_labels(yolo_labels=yolo_ann, label_dir=output_dir, file_name=label_name)

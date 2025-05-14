@@ -1,9 +1,9 @@
 import json
 
-def nb_annotated(path):
+def nb_annotations(path):
     with open(path, 'r') as f:
         coco = json.load(f)
-        annoted_img_ids = {ann['image_id'] for ann in coco['annotations']}
+        annoted_img_ids = {ann['id'] for ann in coco['annotations']}
     
     return len(annoted_img_ids)
 
@@ -16,5 +16,4 @@ def nb_images(path):
     
 
 
-print(nb_annotated("../dataset_sliced/_annotations.coco.json"))
-print(nb_images("../dataset_sliced/_annotations.coco.json"))
+print(nb_images("../../dataset/sliced/_annotations.coco.json"))

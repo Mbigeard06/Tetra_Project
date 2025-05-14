@@ -46,3 +46,5 @@ def filter_labels(label_dir, condition_fn):
 
     print(f"Total removed boxes: {total_removed_boxes}")
     print(f"Total deleted label files: {total_deleted_files}")
+
+

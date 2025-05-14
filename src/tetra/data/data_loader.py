@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from pathlib import Path
 
 
 
@@ -65,4 +66,29 @@ def df_bb(dir_path, splits=("train", "val")):
                                 })
         else:
             print("repertory not found !")
+    return pd.DataFrame(data)
+
+def df_images(dir_path, splits=("train", "val")):
+    data = []
+    for split in splits:
+        split_dir = Path(dir_path) / split
+        img_dir = split_dir / "images"
+        label_dir = split_dir / "labels"
+        for img in os.listdir(img_dir):
+            if img.lower().endswith((".jpg", ".png", ".jpeg")):
+                image_path = img_dir / img
+                label_path = label_dir / (Path(img.stem) + ".txt")
+            
+            if label_path.exists():
+                with open(label_path, "r") as f:
+                    bbox_count = sum(1 for _ in f)
+            else:
+                bbox_count = 0
+            
+            data.append({
+                "img" : img,
+                "bbox_count": bbox_count,
+                "split": split
+            }
+            )
     return pd.DataFrame(data)
