@@ -106,7 +106,7 @@ def get_backgrounds(dir):
 
         label_file = label_dir / img.with_suffix(".txt").name
 
-        if not label_file.exists():
+        if not label_file.exists() or label_file.stat().st_size == 0:
             background.append(img.name)  
 
     return background

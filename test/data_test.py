@@ -19,5 +19,4 @@ def formats(path):
     return {f.suffix.lower() for f in path.glob("*") if f.is_file()}
 
 
-print(count_files("../../dataset/sliced/train/labels", [".txt"]))
-print(count_files("../../dataset/sliced/train/images", [".jpg", ".png"]))
+print(count_files("../../dataset/dataset2/2025-05-14_3-Fold_Cross-val/split_1/train/images", [".png"]), count_files("../../dataset/dataset2/2025-05-14_3-Fold_Cross-val/split_1/val/images", [".png"]))

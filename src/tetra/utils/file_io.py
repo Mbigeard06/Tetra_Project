@@ -5,7 +5,7 @@ import shutil
 import json
 
 
-def coco_to_yolo(annotations, image_path):
+def coco_to_yolo(annotations, image_path, pred):
     image = Image.open(image_path)
     img_width, img_height = image.size
     yolo_labels = []
@@ -17,8 +17,11 @@ def coco_to_yolo(annotations, image_path):
         w_norm = w / img_width
         h_norm = h / img_height
         class_id = ann["category_id"]
-        #score = ann["score"]
-        yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f}")
+        if pred:
+            score = ann["score"]
+            yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f} {score:.6f}")
+        else:
+            yolo_labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f}")
 
     return yolo_labels
 

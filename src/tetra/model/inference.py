@@ -7,7 +7,7 @@ import json
 from tetra.utils import file_io 
 from sahi.predict import predict
 
-def inference(model_path, image_path):
+def solo_inference(model_path, image_path):
     #Load the model
     detection_model = AutoDetectionModel.from_pretrained(
     model_type="ultralytics",
@@ -26,7 +26,7 @@ def inference(model_path, image_path):
 
     return result
 
-def predict_batch(model_path, images_dir):
+def batch_inference(model_path, images_dir):
     return predict(
         model_type="ultralytics",
         model_path=model_path,
