@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from pathlib import Path
+import random
 
 
 
@@ -111,3 +112,19 @@ def get_backgrounds(dir):
 
     return background
 
+def random_data_sample(dataset_dir, f, extensions):
+    """
+    Select a random fraction of the dataset based on file extensions.
+
+    Args:
+        dataset_dir (str): Directory containing the dataset.
+        f (float): Fraction to sample (e.g. 0.2 for 20%).
+        extensions (list): List of allowed file extensions (e.g. ['.jpg', '.png']).
+
+    Returns:
+        list: List of randomly selected filenames (str).
+    """
+    dataset_dir = Path(dataset_dir)
+    files = [file.name for file in dataset_dir.iterdir() if file.suffix.lower() in extensions]
+    nb_samples = int(len(files) * f)
+    return random.sample(files, nb_samples)

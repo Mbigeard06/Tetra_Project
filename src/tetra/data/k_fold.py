@@ -89,7 +89,4 @@ def k_fold(dataset_path, yaml_file, ksplit):
             shutil.copy(label, lbl_to_path / label.name)
 
 
-dataset_path = "../../../../dataset/dataset2/1"
-yaml_file = "../../../../dataset/dataset2/1/dataset2.yaml"
-k_fold(dataset_path, yaml_file, 3)
 

@@ -25,12 +25,19 @@ def coco_to_yolo(annotations, image_path, pred):
 
     return yolo_labels
 
-def save_yolo_labels(yolo_labels, label_dir, file_name):
-    os.makedirs(label_dir, exist_ok=True)
-    path = os.path.join(label_dir, file_name)
+def save_yolo_labels(yolo_labels, dir, file_name):
+    os.makedirs(dir, exist_ok=True)
+    path = os.path.join(dir, file_name)
     with open(path, "w") as f:
         for line in yolo_labels:
             f.write(line + "\n")
+
+def save_coco_labels(coco_label: dict, dir: str, file_name: str = "annotations.json"):
+    os.makedirs(dir, exist_ok=True)
+    path = os.path.join(dir, file_name)
+    with open(path, "w") as f:
+        json.dump(coco_label, f, indent=4)
+
 
 def order_dataset(dataset_path):
     path = Path(dataset_path)
@@ -72,3 +79,15 @@ def coco_to_yolo_ds(annotations_path, img_dir, output_dir):
         yolo_ann = coco_to_yolo(anns, image_path)
         label_name = Path(img["file_name"]).stem + ".txt"
         save_yolo_labels(yolo_labels=yolo_ann, label_dir=output_dir, file_name=label_name)
+
+def flatten_pred(nested_dict):
+    flat = []
+    for ann_list in nested_dict:
+        for ann in ann_list:
+            flat.append({
+                "image_id": ann["image_id"],
+                "category_id": ann["category_id"],
+                "bbox": ann["bbox"],
+                "score": ann["score"]
+            })
+    return flat

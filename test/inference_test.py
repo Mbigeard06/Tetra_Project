@@ -27,7 +27,7 @@ def display_images(image_dir, label_dir, class_file, n):
             print(label.stem + ".jpg")
             image = viewer.view_image(os.path.join(image_dir, label.stem + ".jpg"), label, class_file,0.385)
             plt.imshow(image)
-            plt.title("Inference")
+            plt.title(label.stem)
             plt.axis("off")
             plt.show()
 
