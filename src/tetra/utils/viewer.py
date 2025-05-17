@@ -16,7 +16,7 @@ def view_image(img_path, label_path, class_names, conf=None):
 
     if not os.path.exists(label_path):
         print(f"No label for {img_path}")
-        return
+        return image
     
     with open(label_path, 'r') as f:
         for line in f:

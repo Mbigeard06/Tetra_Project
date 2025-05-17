@@ -128,3 +128,17 @@ def random_data_sample(dataset_dir, f, extensions):
     files = [file.name for file in dataset_dir.iterdir() if file.suffix.lower() in extensions]
     nb_samples = int(len(files) * f)
     return random.sample(files, nb_samples)
+
+def files_annotated(image_dir, label_dir, image_ext=".jpg", label_ext=".txt"):
+    image_dir = Path(image_dir)
+    label_dir = Path(label_dir)
+
+    annotated = []
+
+    for f in image_dir.iterdir():
+        if f.suffix.lower() == image_ext.lower():
+            label_file = label_dir / (f.stem + label_ext)
+            if label_file.exists():
+                annotated.append(f.name)
+
+    return annotated

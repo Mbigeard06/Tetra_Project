@@ -91,3 +91,18 @@ def flatten_pred(nested_dict):
                 "score": ann["score"]
             })
     return flat
+
+def json_to_coco(input, output):
+    with open(input, "r") as fin, open(output, "w") as fout:
+        predictions = []
+        for line in fin:
+            ann = json.loads(line)
+            # Keep valid field
+            coco_ann = {
+                "image_id": ann["image_id"],
+                "bbox": ann["bbox"],
+                "score": ann["score"],
+                "category_id": ann["category_id"]
+            }
+            predictions.append(coco_ann)
+        json.dump(predictions, fout, indent=4)

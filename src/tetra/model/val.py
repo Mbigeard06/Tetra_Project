@@ -25,7 +25,7 @@ def eval_model(model_path, data_yaml, iou):
 
 def eval_hr(gt, pred):
     """
-    Evaluates the prediction of the model
+    Evaluates the predictions of the model on the hr images
     Args:
         gt : ground thruth annotations json path
         pred : prediction in coco json format
