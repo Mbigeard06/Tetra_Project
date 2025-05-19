@@ -2,6 +2,8 @@ import os
 import pandas as pd
 from pathlib import Path
 import random
+from pycocotools.coco import COCO
+from pycocotools.cocoeval import COCOeval
 
 
 
@@ -142,3 +144,20 @@ def files_annotated(image_dir, label_dir, image_ext=".jpg", label_ext=".txt"):
                 annotated.append(f.name)
 
     return annotated
+
+def get_fp(predictions: COCOeval):
+    false_positives = []
+    for ev in predictions.evalImgs:
+        if ev is None:
+            continue
+        for i, ignored in enumerate(ev['dtIgnore']):
+            if ignored == 1:  # 1 = FP
+                fp_id = ev['dtIds'][i]
+                score = ev['dtScores'][i]
+                false_positives.append({
+                    "image_id": ev["image_id"],
+                    "category_id": ev["category_id"],
+                    "dt_id": fp_id,
+                    "score": score
+                })
+    return false_positives

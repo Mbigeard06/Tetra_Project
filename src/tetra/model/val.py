@@ -5,9 +5,7 @@ from pycocotools.cocoeval import COCOeval
 
 
 def eval_model(model_path, data_yaml, iou):
-    # Load the model
-    #val3 lyrurus_yolov11m_new_dataset_iou=0.5
-    #val4 lyrurus_yolov11m_new_dataset
+
     model = YOLO(model_path)
 
     # Run the evaluation with proper params

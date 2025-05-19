@@ -32,7 +32,7 @@ def save_yolo_labels(yolo_labels, dir, file_name):
         for line in yolo_labels:
             f.write(line + "\n")
 
-def save_coco_labels(coco_label: dict, dir: str, file_name: str = "annotations.json"):
+def save_coco_labels(coco_label: dict, dir: str, file_name: str = "annotations.coco.json"):
     os.makedirs(dir, exist_ok=True)
     path = os.path.join(dir, file_name)
     with open(path, "w") as f:

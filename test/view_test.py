@@ -9,7 +9,7 @@ import importlib
 
 #path
 image_path = os.path.abspath("../../dataset/og/images")  
-label_dir = os.path.abspath("../../dataset/inference/labels/lyrurus_yolov11l_background_labels")
+label_dir = os.path.abspath("../../dataset/inference/labels/lyrurus_yolov11m_new_dataset_iou=0.5")
 class_file = os.path.abspath("../classes.txt")
 
 
@@ -40,5 +40,5 @@ def display_sample(image_file, label_file, class_file=class_file):
     plt.show()
 
 
-display_batch(image_dir=image_path, label_dir=label_dir, class_file=class_file,n=6)
+display_batch(image_dir=image_path, label_dir=label_dir, class_file=class_file,n=10)
 #display_sample(image_path, label_dir, class_file)
