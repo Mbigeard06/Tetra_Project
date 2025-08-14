@@ -1,37 +1,24 @@
-# Tetra_Project  
-Tetra Project — Détection de Tetrao urogallus sur images panoramiques
+ Tetra Project
 
-Pipeline complet de vision par ordinateur pour détecter des tétras sur des photos panoramiques haute résolution (appareils fixes en milieu forestier). Le projet couvre le prétraitement, la préparation du jeu de données, l’entraînement (YOLO), l’évaluation et l’inférence sur images HD.
+## 📌 Description
+Ce projet a été réalisé dans le cadre d’un stage à la Direction Générale des Systèmes d’Information (DGSI) de l’Institut Agro Dijon.  
+L’objectif est de développer un pipeline complet de vision par ordinateur permettant de détecter automatiquement des **Tetrao urogallus** (tétras lyres) sur des images panoramiques haute résolution, capturées par des appareils photo fixes installés dans le Parc naturel régional du Vercors.
 
-✨ Points clés
-	•	Tiling SAHI des panoramas en tuiles 640×640, avec mise à jour automatique des boîtes.
-	•	Nettoyage des annotations : règles de conservation (aire, ratio), ajout d’images de fond pour réduire les faux positifs.
-	•	Entraînement YOLO (v8 / v11) + fine-tuning d’hyperparamètres.
-	•	mAP@0.5 ≈ 0.985–0.988 (selon variante) sur dataset corrigé.
-	•	Scripts d’automatisation : tri/filtrage des boxes, comparaison visuelle des métriques, visualisation BB.
+Le pipeline prend en charge :
+- Le découpage des images panoramiques en tuiles.
+- Le nettoyage et la correction des annotations.
+- L’entraînement de modèles **YOLO** avec ajustement des hyperparamètres.
+- L’inférence et l’évaluation des performances.
+- L’automatisation de tâches récurrentes (visualisation, tri des bounding boxes, comparaison de modèles, etc.).
 
-
-🔧 Installation
-Prérequis : Python 3.10+ et un GPU NVIDIA recommandé (CUDA).
-# 1) Cloner
-git clone https://github.com/Mbigeard06/Tetra_Project.git
-cd Tetra_Project
-
-# 2) Créer l’environnement
-python -m venv .venv
-source .venv/bin/activate   # (Windows: .venv\Scripts\activate)
-
-# 3) Installer les dépendances
-pip install --upgrade pip
-pip install -r requirements.txt
-
-🗂️ Données (format YOLO)
-datasets/
-  tetra/
-    images/
-      train/  val/  test/
-    labels/
-      train/  val/  test/   # fichiers .txt au format YOLO (cls x_center y_center width height)
-      
-•	Classes (exemple) : voir classes.txt.
-•	Les panoramas bruts sont découpés en tuiles 640×640 avant entraînement.
+## 🛠️ Technologies utilisées
+- **Langage :** Python 3
+- **Bibliothèques principales :**
+  - [SAHI](https://github.com/obss/sahi) : découpage d’images et gestion des bounding boxes
+  - [PyTorch](https://pytorch.org/) : framework deep learning
+  - [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) : modèles de détection d’objets
+  - Pandas, NumPy, scikit-learn : traitement et analyse de données
+  - Matplotlib : visualisation
+- **Matériel :**
+  - GPU NVIDIA pour l’entraînement
+  - Serveur interne de l’Institut Agro Dijon
